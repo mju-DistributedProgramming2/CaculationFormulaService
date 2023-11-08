@@ -4,6 +4,7 @@ package com.example.caculationformulaservice.DTO;
 
 
 import com.example.caculationformulaservice.enumeration.accident.AccidentStatus;
+import org.hibernate.annotations.Entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -18,7 +19,6 @@ public class Accident implements Serializable {
     private long damage;
     private String accountNumber;
     private AccidentStatus status;
-
     public Accident(int contractId, Timestamp date, String location, String cause, String content, long damage, String  accountNumber, AccidentStatus status) {
         this.contractId = contractId;
         this.date = date;

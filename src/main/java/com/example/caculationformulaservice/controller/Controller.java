@@ -12,6 +12,7 @@ import com.example.caculationformulaservice.service.CalculationFormulaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.rmi.RemoteException;
@@ -30,7 +31,7 @@ public class Controller {
         return calculationFormulaService.getCalculationFormula(id);
     }
     @PostMapping("/calculationFormula")
-    public int makeFormula(CalculationFormula calculationFormula) throws RemoteException, DataDuplicationException {
+    public int makeFormula(@RequestBody CalculationFormula calculationFormula) throws RemoteException, DataDuplicationException {
         return calculationFormulaService.makeFormula(calculationFormula);
     }
     @GetMapping("/maxCompensation")
