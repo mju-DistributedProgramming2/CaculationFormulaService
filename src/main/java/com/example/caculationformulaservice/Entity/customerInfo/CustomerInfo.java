@@ -1,4 +1,4 @@
-package com.example.caculationformulaservice.DTO.customerInfo;
+package com.example.caculationformulaservice.Entity.customerInfo;
 
 
 

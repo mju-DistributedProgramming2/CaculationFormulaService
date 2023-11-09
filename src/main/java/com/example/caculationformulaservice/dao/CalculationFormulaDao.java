@@ -1,9 +1,9 @@
 package com.example.caculationformulaservice.dao;
 
 
-import com.example.caculationformulaservice.DTO.calculationFormula.CalculationFormula;
-import com.example.caculationformulaservice.DTO.calculationFormula.HomeFormula;
-import com.example.caculationformulaservice.DTO.calculationFormula.WorkplaceFormula;
+import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.calculationFormula.HomeFormula;
+import com.example.caculationformulaservice.Entity.calculationFormula.WorkplaceFormula;
 import com.example.caculationformulaservice.enumeration.calculationFormula.OutwallType;
 import com.example.caculationformulaservice.enumeration.calculationFormula.PillarType;
 import com.example.caculationformulaservice.enumeration.calculationFormula.RiskLevel;

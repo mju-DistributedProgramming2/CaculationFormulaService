@@ -3,8 +3,8 @@ package com.example.caculationformulaservice.service;
 
 
 
-import com.example.caculationformulaservice.DTO.calculationFormula.CalculationFormula;
-import com.example.caculationformulaservice.DTO.customerInfo.CustomerInfo;
+import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.customerInfo.CustomerInfo;
 import com.example.caculationformulaservice.enumeration.insurance.InsuranceType;
 import com.example.caculationformulaservice.exception.DataDuplicationException;
 import com.example.caculationformulaservice.exception.EmptyListException;

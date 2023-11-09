@@ -1,12 +1,12 @@
 package com.example.caculationformulaservice.service;
 
 
-import com.example.caculationformulaservice.DTO.calculationFormula.CalculationFormula;
-import com.example.caculationformulaservice.DTO.calculationFormula.HomeFormula;
-import com.example.caculationformulaservice.DTO.calculationFormula.WorkplaceFormula;
-import com.example.caculationformulaservice.DTO.customerInfo.CustomerInfo;
-import com.example.caculationformulaservice.DTO.customerInfo.HomeCustomerInfo;
-import com.example.caculationformulaservice.DTO.customerInfo.WorkplaceCustomerInfo;
+import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.calculationFormula.HomeFormula;
+import com.example.caculationformulaservice.Entity.calculationFormula.WorkplaceFormula;
+import com.example.caculationformulaservice.Entity.customerInfo.CustomerInfo;
+import com.example.caculationformulaservice.Entity.customerInfo.HomeCustomerInfo;
+import com.example.caculationformulaservice.Entity.customerInfo.WorkplaceCustomerInfo;
 import com.example.caculationformulaservice.dao.CalculationFormulaDao;
 import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeCompensation;
 import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeSquareMeter;

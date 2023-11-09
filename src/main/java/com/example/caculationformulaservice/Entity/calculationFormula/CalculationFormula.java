@@ -1,4 +1,4 @@
-package com.example.caculationformulaservice.DTO.calculationFormula;
+package com.example.caculationformulaservice.Entity.calculationFormula;
 
 
 import com.example.caculationformulaservice.enumeration.calculationFormula.OutwallType;

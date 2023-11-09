@@ -1,4 +1,4 @@
-package com.example.caculationformulaservice.DTO;
+package com.example.caculationformulaservice.Entity;
 
 
 

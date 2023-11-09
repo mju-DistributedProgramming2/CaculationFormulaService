@@ -1,10 +1,9 @@
-package com.example.caculationformulaservice.DTO;
+package com.example.caculationformulaservice.Entity;
 
 
 
 
 import com.example.caculationformulaservice.enumeration.accident.AccidentStatus;
-import org.hibernate.annotations.Entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
