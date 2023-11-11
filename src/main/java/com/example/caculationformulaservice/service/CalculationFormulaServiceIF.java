@@ -4,6 +4,7 @@ package com.example.caculationformulaservice.service;
 
 
 import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
 import com.example.caculationformulaservice.Entity.customerInfo.CustomerInfo;
 import com.example.caculationformulaservice.enumeration.insurance.InsuranceType;
 import com.example.caculationformulaservice.exception.DataDuplicationException;
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 
 public interface CalculationFormulaServiceIF  extends Remote {
 
-    ArrayList<CalculationFormula> getCalculationFormulaList(InsuranceType insuranceType) throws RemoteException, EmptyListException, TimeDelayException;
+    ArrayList<CalculationFormulaForService> getCalculationFormulaList(InsuranceType insuranceType) throws RemoteException, EmptyListException, TimeDelayException;
 
-    CalculationFormula getCalculationFormula(int id) throws RemoteException, NoDataException;
+    CalculationFormulaForService getCalculationFormula(int id) throws RemoteException, NoDataException;
 
-    int makeFormula(CalculationFormula calculationFormula) throws RemoteException, DataDuplicationException;
+    int makeFormula(CalculationFormulaForService calculationFormula) throws RemoteException, DataDuplicationException;
 
     int calculateMaxCompensation(int squareMeter, int calculationFormulaId) throws RemoteException, NoDataException;
 

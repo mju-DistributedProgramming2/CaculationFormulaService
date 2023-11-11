@@ -1,10 +1,22 @@
 package com.example.caculationformulaservice.DTO;
 
 import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
 
 import java.util.ArrayList;
 
 public class GetCalculationFormulaListResponse {
-    ArrayList<CalculationFormula> calculationFormulas;
-    public GetCalculationFormulaListResponse(ArrayList<CalculationFormula> calculationFormulas) {this.calculationFormulas = calculationFormulas;}
+    ArrayList<CalculationFormulaForService> calculationFormulas;
+
+    public GetCalculationFormulaListResponse(ArrayList<CalculationFormulaForService> calculationFormulas) {
+        this.calculationFormulas = calculationFormulas;
+    }
+
+    public ArrayList<CalculationFormulaForService> getCalculationFormulas() {
+        return calculationFormulas;
+    }
+
+    public void setCalculationFormulas(ArrayList<CalculationFormulaForService> calculationFormulas) {
+        this.calculationFormulas = calculationFormulas;
+    }
 }

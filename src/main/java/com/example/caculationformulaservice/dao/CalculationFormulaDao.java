@@ -4,178 +4,213 @@ package com.example.caculationformulaservice.dao;
 import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
 import com.example.caculationformulaservice.Entity.calculationFormula.HomeFormula;
 import com.example.caculationformulaservice.Entity.calculationFormula.WorkplaceFormula;
-import com.example.caculationformulaservice.enumeration.calculationFormula.OutwallType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.PillarType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RiskLevel;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RoofType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeCompensation;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeSquareMeter;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HouseType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.ResidenceType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.workplaceFormula.Floor;
-import com.example.caculationformulaservice.enumeration.calculationFormula.workplaceFormula.WorkplaceCompensation;
-import com.example.caculationformulaservice.enumeration.calculationFormula.workplaceFormula.WorkplaceSquareMeter;
-import com.example.caculationformulaservice.enumeration.calculationFormula.workplaceFormula.WorkplaceUsage;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.HomeFormulaForService;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.WorkplaceFormulaForService;
+import com.example.caculationformulaservice.Repository.CalculationFormulaRepository;
+import com.example.caculationformulaservice.Repository.HomeFormulaRepository;
+import com.example.caculationformulaservice.Repository.WorkplaceFormulaRepository;
 import com.example.caculationformulaservice.enumeration.insurance.InsuranceType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 @Repository
 public class CalculationFormulaDao extends Dao {
-	public CalculationFormulaDao() {
+	@Autowired
+	private final CalculationFormulaRepository calculationFormulaRepository;
+	@Autowired
+	private final HomeFormulaRepository homeFormulaRepository;
+	@Autowired
+	private final WorkplaceFormulaRepository workplaceFormulaRepository;
+	public CalculationFormulaDao(CalculationFormulaRepository calculationFormulaRepository, HomeFormulaRepository homeFormulaRepository, WorkplaceFormulaRepository workplaceFormulaRepository) {
 		super();
+		this.calculationFormulaRepository = calculationFormulaRepository;
+		this.homeFormulaRepository = homeFormulaRepository;
+		this.workplaceFormulaRepository = workplaceFormulaRepository;
 	}
-	public boolean create(CalculationFormula calculationFormula) {
-		try {
-			PreparedStatement ps = null;
-			ps = connection.prepareStatement("insert into calculationformula values (?, ?, ?, ?, ?, ?, ?, ?) ");
-			ps.setInt(1, calculationFormula.getId());
-			ps.setString(2, calculationFormula.getName());
-			ps.setBytes(3, serialize(calculationFormula.getRiskLevelAccordingToPillarType()));
-			ps.setBytes(4, serialize(calculationFormula.getRiskLevelAccordingToRoofType()));
-			ps.setBytes(5, serialize(calculationFormula.getRiskLevelAccordingToOutwallType()));
-			ps.setInt(6, calculationFormula.getMultiplierForMinCompensation());
-			ps.setInt(7, calculationFormula.getMultiplierForMaxCompensation());
-			ps.setInt(8,calculationFormula.getMultiplierForPayment());
-			ps.executeUpdate();
-			ps.close();
-			if(calculationFormula instanceof HomeFormula){
-				HomeFormula homeFormula = (HomeFormula) calculationFormula;
-				ps = connection.prepareStatement("insert into homeformula values (?, ?, ?, ?, ?) ");
-				ps.setInt(1, homeFormula.getId());
-				ps.setBytes(2, serialize(homeFormula.getRiskLevelAccordingToResidenceType()));
-				ps.setBytes(3, serialize(homeFormula.getRiskLevelAccordingToHouseType()));
-				ps.setBytes(4, serialize(homeFormula.getRiskLevelAccordingToSquareMeter()));
-				ps.setBytes(5, serialize(homeFormula.getRiskLevelAccordingToCompensation()));
-				ps.executeUpdate();
-				ps.close();
-			}else{
-				WorkplaceFormula workplaceFormula = (WorkplaceFormula) calculationFormula;
-				ps = connection.prepareStatement("insert into workplaceformula values (?, ?, ?, ?, ?) ");
-				ps.setInt(1, workplaceFormula.getId());
-				ps.setBytes(2, serialize(workplaceFormula.getRiskLevelAccordingToUsage()));
-				ps.setBytes(3, serialize(workplaceFormula.getRiskLevelAccordingToFloor()));
-				ps.setBytes(4, serialize(workplaceFormula.getRiskLevelAccordingToSquareMeter()));
-				ps.setBytes(5, serialize(workplaceFormula.getRiskLevelAccordingToCompensation()));
-				ps.executeUpdate();
-				ps.close();
-			}
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+	public boolean create(CalculationFormulaForService calculationFormulaForService) {
+		//			PreparedStatement ps = null;
+//			ps = connection.prepareStatement("insert into calculationformula values (?, ?, ?, ?, ?, ?, ?, ?) ");
+//			ps.setInt(1, calculationFormula.getId());
+//			ps.setString(2, calculationFormula.getName());
+//			ps.setBytes(3, serialize(calculationFormula.getRiskAccordingToPillarType()));
+//			ps.setBytes(4, serialize(calculationFormula.getRiskAccordingToRoofType()));
+//			ps.setBytes(5, serialize(calculationFormula.getRiskAccordingToOutwallType()));
+//			ps.setInt(6, calculationFormula.getMultiplierForMinCompensation());
+//			ps.setInt(7, calculationFormula.getMultiplierForMaxCompensation());
+//			ps.setInt(8,calculationFormula.getMultiplierForPayment());
+//			ps.executeUpdate();
+//			ps.close();
+//			if(calculationFormula instanceof HomeFormula){
+//				HomeFormula homeFormula = (HomeFormula) calculationFormula;
+//				ps = connection.prepareStatement("insert into homeformula values (?, ?, ?, ?, ?) ");
+//				ps.setInt(1, homeFormula.getId());
+//				ps.setBytes(2, serialize(homeFormula.getRiskLevelAccordingToResidenceType()));
+//				ps.setBytes(3, serialize(homeFormula.getRiskLevelAccordingToHouseType()));
+//				ps.setBytes(4, serialize(homeFormula.getRiskLevelAccordingToSquareMeter()));
+//				ps.setBytes(5, serialize(homeFormula.getRiskLevelAccordingToCompensation()));
+//				ps.executeUpdate();
+//				ps.close();
+//			}else{
+//				WorkplaceFormula workplaceFormula = (WorkplaceFormula) calculationFormula;
+//				ps = connection.prepareStatement("insert into workplaceformula values (?, ?, ?, ?, ?) ");
+//				ps.setInt(1, workplaceFormula.getId());
+//				ps.setBytes(2, serialize(workplaceFormula.getRiskLevelAccordingToUsage()));
+//				ps.setBytes(3, serialize(workplaceFormula.getRiskLevelAccordingToFloor()));
+//				ps.setBytes(4, serialize(workplaceFormula.getRiskLevelAccordingToSquareMeter()));
+//				ps.setBytes(5, serialize(workplaceFormula.getRiskLevelAccordingToCompensation()));
+//				ps.executeUpdate();
+//				ps.close();
+//			}
+		CalculationFormula calculationFormula;
+		if(calculationFormulaForService instanceof HomeFormulaForService){
+			HomeFormula homeFormula = new HomeFormula(calculationFormulaForService);
+			homeFormula.setRiskLevelAccordingToPillarType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToPillarType()));
+			homeFormula.setRiskLevelAccordingToRoofType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToRoofType()));
+			homeFormula.setRiskLevelAccordingToOutwallType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToOutwallType()));
+			homeFormula.setRiskLevelAccordingToResidenceType(this.serialize(((HomeFormulaForService) calculationFormulaForService).getRiskLevelAccordingToResidenceType()));
+			homeFormula.setRiskLevelAccordingToHouseType(this.serialize(((HomeFormulaForService) calculationFormulaForService).getRiskLevelAccordingToHouseType()));
+			homeFormula.setRiskLevelAccordingToSquareMeter(this.serialize(((HomeFormulaForService) calculationFormulaForService).getRiskLevelAccordingToSquareMeter()));
+			homeFormula.setRiskLevelAccordingToCompensation(this.serialize(((HomeFormulaForService) calculationFormulaForService).getRiskLevelAccordingToCompensation()));
+			calculationFormula = homeFormula;
+		}else{
+			WorkplaceFormula workplaceFormula = new WorkplaceFormula(calculationFormulaForService);
+			workplaceFormula.setRiskLevelAccordingToPillarType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToPillarType()));
+			workplaceFormula.setRiskLevelAccordingToRoofType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToRoofType()));
+			workplaceFormula.setRiskLevelAccordingToOutwallType(this.serialize(calculationFormulaForService.getRiskLevelAccordingToOutwallType()));
+			workplaceFormula.setRiskLevelAccordingToUsage(this.serialize(((WorkplaceFormulaForService) calculationFormulaForService).getRiskLevelAccordingToUsage()));
+			workplaceFormula.setRiskLevelAccordingToFloor(this.serialize(((WorkplaceFormulaForService) calculationFormulaForService).getRiskLevelAccordingToFloor()));
+			workplaceFormula.setRiskLevelAccordingToSquareFeet(this.serialize(((WorkplaceFormulaForService) calculationFormulaForService).getRiskLevelAccordingToSquareMeter()));
+			workplaceFormula.setRiskLevelAccordingToCompensation(this.serialize(((WorkplaceFormulaForService) calculationFormulaForService).getRiskLevelAccordingToCompensation()));
+			calculationFormula = workplaceFormula;
 		}
+		if(calculationFormulaRepository.save(calculationFormula)==null) return false;
+		return true;
 	}
-	public ArrayList<CalculationFormula> retrieve(){
-		try {
-			ArrayList<CalculationFormula> calculationFormulaList = new ArrayList<>();
-			PreparedStatement ps = null;
-			ps = connection.prepareStatement("select * from calculationformula, homeformula where calculationformula.id=homeformula.id;");
-			resultSet = ps.executeQuery();
-			while (resultSet.next()){
-				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
-				HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType
-						= (HashMap<PillarType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToPillarType"));
-				HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType
-						= (HashMap<RoofType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToRoofType"));
-				HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType
-						= (HashMap<OutwallType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToOutwallType"));
-				int multiplierForMinCompensation = resultSet.getInt("multiplierForMinCompensation");
-				int multiplierForMaxCompensation = resultSet.getInt("multiplierForMaxCompensation");
-				int multiplierForPayment = resultSet.getInt("multiplierForPayment");
-				HashMap<ResidenceType, RiskLevel> riskLevelAccordingToResidenceType
-						= (HashMap<ResidenceType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToResidenceType"));
-				HashMap<HouseType, RiskLevel> riskLevelAccordingToHouseType
-						= (HashMap<HouseType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToHouseType"));
-				HashMap<HomeSquareMeter, RiskLevel> riskLevelAccordingToSquareMeter
-						= (HashMap<HomeSquareMeter, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToSquareMeter"));
-				HashMap<HomeCompensation, RiskLevel> riskLevelAccordingToCompensation
-						= (HashMap<HomeCompensation, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToCompensation"));
-				HomeFormula homeFormula = new HomeFormula(
-						name,riskLevelAccordingToPillarType,riskLevelAccordingToRoofType,
-						riskLevelAccordingToOutwallType,multiplierForMinCompensation,
-						multiplierForMaxCompensation,multiplierForPayment,
-						riskLevelAccordingToResidenceType, riskLevelAccordingToHouseType,
-						riskLevelAccordingToSquareMeter, riskLevelAccordingToCompensation
-				);
-				homeFormula.setId(id);
-				calculationFormulaList.add(homeFormula);
-			}
-			ps.close();
-			resultSet.close();
+	public List<CalculationFormulaForService> retrieve(){
+//		try {
+//			ArrayList<CalculationFormula> calculationFormulaList = new ArrayList<>();
+//			PreparedStatement ps = null;
+//			ps = connection.prepareStatement("select * from calculationformula, homeformula where calculationformula.id=homeformula.id;");
+//			resultSet = ps.executeQuery();
+//			while (resultSet.next()){
+//				int id = resultSet.getInt("id");
+//				String name = resultSet.getString("name");
+//				HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType
+//						= (HashMap<PillarType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToPillarType"));
+//				HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType
+//						= (HashMap<RoofType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToRoofType"));
+//				HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType
+//						= (HashMap<OutwallType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToOutwallType"));
+//				int multiplierForMinCompensation = resultSet.getInt("multiplierForMinCompensation");
+//				int multiplierForMaxCompensation = resultSet.getInt("multiplierForMaxCompensation");
+//				int multiplierForPayment = resultSet.getInt("multiplierForPayment");
+//				HashMap<ResidenceType, RiskLevel> riskLevelAccordingToResidenceType
+//						= (HashMap<ResidenceType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToResidenceType"));
+//				HashMap<HouseType, RiskLevel> riskLevelAccordingToHouseType
+//						= (HashMap<HouseType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToHouseType"));
+//				HashMap<HomeSquareMeter, RiskLevel> riskLevelAccordingToSquareMeter
+//						= (HashMap<HomeSquareMeter, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToSquareMeter"));
+//				HashMap<HomeCompensation, RiskLevel> riskLevelAccordingToCompensation
+//						= (HashMap<HomeCompensation, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToCompensation"));
+//				HomeFormula homeFormula = new HomeFormula(
+//						name,riskLevelAccordingToPillarType,riskLevelAccordingToRoofType,
+//						riskLevelAccordingToOutwallType,multiplierForMinCompensation,
+//						multiplierForMaxCompensation,multiplierForPayment,
+//						riskLevelAccordingToResidenceType, riskLevelAccordingToHouseType,
+//						riskLevelAccordingToSquareMeter, riskLevelAccordingToCompensation
+//				);
+//				homeFormula.setId(id);
+//				calculationFormulaList.add(homeFormula);
+//			}
+//			ps.close();
+//			resultSet.close();
+//
+//			ps = connection.prepareStatement("select * from calculationformula, workplaceformula where calculationformula.id=workplaceformula.id;");
+//			resultSet = ps.executeQuery();
+//			while (resultSet.next()){
+//				int id = resultSet.getInt("id");
+//				String name = resultSet.getString("name");
+//				HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType
+//						= (HashMap<PillarType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToPillarType"));
+//				HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType
+//						= (HashMap<RoofType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToRoofType"));
+//				HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType
+//						= (HashMap<OutwallType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToOutwallType"));
+//				int multiplierForMinCompensation = resultSet.getInt("multiplierForMinCompensation");
+//				int multiplierForMaxCompensation = resultSet.getInt("multiplierForMaxCompensation");
+//				int multiplierForPayment = resultSet.getInt("multiplierForPayment");
+//				HashMap<WorkplaceUsage, RiskLevel> riskLevelAccordingToUsage
+//						= (HashMap<WorkplaceUsage, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToUsage"));
+//				HashMap<Floor, RiskLevel> riskLevelAccordingToFloor
+//						= (HashMap<Floor, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToFloor"));
+//				HashMap<WorkplaceSquareMeter, RiskLevel> riskLevelAccordingToSquareFeet
+//						= (HashMap<WorkplaceSquareMeter, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToSquareFeet"));
+//				HashMap<WorkplaceCompensation, RiskLevel> riskLevelAccordingToCompensation
+//						= (HashMap<WorkplaceCompensation, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToCompensation"));
+//				WorkplaceFormula workplaceFormula = new WorkplaceFormula(
+//						name,riskLevelAccordingToPillarType,riskLevelAccordingToRoofType,
+//						riskLevelAccordingToOutwallType,multiplierForMinCompensation,
+//						multiplierForMaxCompensation,multiplierForPayment,
+//						riskLevelAccordingToUsage, riskLevelAccordingToFloor,
+//						riskLevelAccordingToSquareFeet, riskLevelAccordingToCompensation
+//				);
+//				workplaceFormula.setId(id);
+//				calculationFormulaList.add(workplaceFormula);
+//			}
+//			ps.close();
+//			resultSet.close();
+//			return calculationFormulaList;
+//		} catch (SQLException | IOException e) {
+//			e.printStackTrace();
+//			return new ArrayList<>();
+//		}
+		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+		for(CalculationFormula a:calculationFormulaRepository.findAll()){
+			System.out.println(a.toString());
+			System.out.println("---------------------------------------------------------");
 
-			ps = connection.prepareStatement("select * from calculationformula, workplaceformula where calculationformula.id=workplaceformula.id;");
-			resultSet = ps.executeQuery();
-			while (resultSet.next()){
-				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
-				HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType
-						= (HashMap<PillarType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToPillarType"));
-				HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType
-						= (HashMap<RoofType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToRoofType"));
-				HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType
-						= (HashMap<OutwallType, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToOutwallType"));
-				int multiplierForMinCompensation = resultSet.getInt("multiplierForMinCompensation");
-				int multiplierForMaxCompensation = resultSet.getInt("multiplierForMaxCompensation");
-				int multiplierForPayment = resultSet.getInt("multiplierForPayment");
-				HashMap<WorkplaceUsage, RiskLevel> riskLevelAccordingToUsage
-						= (HashMap<WorkplaceUsage, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToUsage"));
-				HashMap<Floor, RiskLevel> riskLevelAccordingToFloor
-						= (HashMap<Floor, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToFloor"));
-				HashMap<WorkplaceSquareMeter, RiskLevel> riskLevelAccordingToSquareFeet
-						= (HashMap<WorkplaceSquareMeter, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToSquareFeet"));
-				HashMap<WorkplaceCompensation, RiskLevel> riskLevelAccordingToCompensation
-						= (HashMap<WorkplaceCompensation, RiskLevel>) deSerialize(resultSet.getBytes("riskLevelAccordingToCompensation"));
-				WorkplaceFormula workplaceFormula = new WorkplaceFormula(
-						name,riskLevelAccordingToPillarType,riskLevelAccordingToRoofType,
-						riskLevelAccordingToOutwallType,multiplierForMinCompensation,
-						multiplierForMaxCompensation,multiplierForPayment,
-						riskLevelAccordingToUsage, riskLevelAccordingToFloor,
-						riskLevelAccordingToSquareFeet, riskLevelAccordingToCompensation
-				);
-				workplaceFormula.setId(id);
-				calculationFormulaList.add(workplaceFormula);
-			}
-			ps.close();
-			resultSet.close();
-			return calculationFormulaList;
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
-			return new ArrayList<>();
+			System.out.println(a.getClass());
+			System.out.println("---------------------------------------------------------");
+
 		}
+		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+
+		return null;
 	}
-	public int add(CalculationFormula calculationFormula) {
-		ArrayList<CalculationFormula> calculationFormulaList = retrieve();
-		if(calculationFormulaList.size()==0) calculationFormula.setId(1);
-		else {calculationFormula.setId(getLastId(calculationFormulaList)+1);}
-		if(create(calculationFormula)) return calculationFormula.getId();
+	public int add(CalculationFormulaForService calculationFormulaForService) {
+		List<CalculationFormulaForService> calculationFormulaList = retrieve();
+		if(calculationFormulaList.size()==0) calculationFormulaForService.setId(1);
+		else {calculationFormulaForService.setId(getLastId(calculationFormulaList)+1);}
+		if(create(calculationFormulaForService)) return calculationFormulaForService.getId();
 		else {return 0;}
 	}
-	public CalculationFormula findById(int id) {
-		for(CalculationFormula calculationformula : retrieve()) {
-			if(calculationformula.getId() == id) return calculationformula;
+	public CalculationFormulaForService findById(int id) {
+		for(CalculationFormulaForService calculationformula : retrieve()) {
+			if(calculationformula.getId() == id){
+			//	CalculationFormulaForService calculationFormulaForService = new CalculationFormulaForService();
+				return calculationformula;
+			}
 		}
 		return null;
 	}
 	public CalculationFormula findByName(String name) {
-		for(CalculationFormula calculationformula : retrieve()) {
-			if(calculationformula.getName().equals(name)) return calculationformula;
+		for(CalculationFormulaForService calculationformula : retrieve()) {
+			if(calculationformula.getName().equals(name)) return null;
 		}
 		return null;
 	}
-	public ArrayList<CalculationFormula> findByType(InsuranceType insuranceType) {
-		ArrayList<CalculationFormula> formulaListByType = new ArrayList<>();
-		for(CalculationFormula calculationFormula : retrieve()) {
+	public ArrayList<CalculationFormulaForService> findByType(InsuranceType insuranceType) {
+		ArrayList<CalculationFormulaForService> formulaListByType = new ArrayList<>();
+		for(CalculationFormulaForService calculationFormula : retrieve()) {
 			if(insuranceType==InsuranceType.HomeFire) {
-				if(calculationFormula instanceof HomeFormula) {formulaListByType.add(calculationFormula);}}
+				if(calculationFormula instanceof HomeFormulaForService) {formulaListByType.add(calculationFormula);}}
 			if(insuranceType==InsuranceType.WorkplaceFire) {
-				if(calculationFormula instanceof WorkplaceFormula) {formulaListByType.add(calculationFormula);}}
+				if(calculationFormula instanceof WorkplaceFormulaForService) {formulaListByType.add(calculationFormula);}}
 		}
 		return formulaListByType;
 	}
@@ -208,9 +243,9 @@ public class CalculationFormulaDao extends Dao {
 		return object ;
 	}
 
-	public int getLastId(ArrayList<CalculationFormula> calculationFormulaList){
+	public int getLastId(List<CalculationFormulaForService> calculationFormulaList){
 		int id = 0;
-		for(CalculationFormula calculationFormula : calculationFormulaList){
+		for(CalculationFormulaForService calculationFormula : calculationFormulaList){
 			if(calculationFormula.getId() > id) id = calculationFormula.getId();
 		}
 		return id;

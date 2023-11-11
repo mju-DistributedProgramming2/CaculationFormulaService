@@ -3,71 +3,68 @@ package com.example.caculationformulaservice.Entity.calculationFormula;
 
 
 
-import com.example.caculationformulaservice.enumeration.calculationFormula.OutwallType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.PillarType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RiskLevel;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RoofType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeCompensation;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HomeSquareMeter;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.HouseType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.homeFormula.ResidenceType;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
 
-import java.util.HashMap;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
 
+@Entity
 public class HomeFormula extends CalculationFormula {
 
-	private HashMap<ResidenceType, RiskLevel> riskLevelAccordingToResidenceType;
-	private HashMap<HouseType, RiskLevel> riskLevelAccordingToHouseType;
-	private HashMap<HomeSquareMeter, RiskLevel> riskLevelAccordingToSquareMeter;
-	private HashMap<HomeCompensation, RiskLevel> riskLevelAccordingToCompensation;
+	@Lob
+	@Column(name = "riskLevelAccordingToResidenceType", nullable = false)
+	private byte[] riskLevelAccordingToResidenceType;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToHouseType", nullable = false)
+	private byte[] riskLevelAccordingToHouseType;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToSquareMeter", nullable = false)
+	private byte[] riskLevelAccordingToSquareMeter;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToCompensation", nullable = false)
+	private byte[] riskLevelAccordingToCompensation;
 	
-	public HomeFormula(String calculationFormulaName, HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType,
-					   HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType,
-					   HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType, int numToMultiplyForMinCompensation,
-					   int numToMultiplyForMaxCompensation, int numToMultiplyForPayment,
-					   HashMap<ResidenceType, RiskLevel> riskLevelAccordingToResidenceType,
-					   HashMap<HouseType, RiskLevel> riskLevelAccordingToHouseType,
-					   HashMap<HomeSquareMeter, RiskLevel> riskLevelAccordingToSquareMeter,
-					   HashMap<HomeCompensation, RiskLevel> riskLevelAccordingToCompensation) {
-		super(calculationFormulaName, riskLevelAccordingToPillarType, riskLevelAccordingToRoofType,
-				riskLevelAccordingToOutwallType, numToMultiplyForMinCompensation, numToMultiplyForMaxCompensation,
-				numToMultiplyForPayment);
-		this.riskLevelAccordingToResidenceType = riskLevelAccordingToResidenceType;
-		this.riskLevelAccordingToHouseType = riskLevelAccordingToHouseType;
-		this.riskLevelAccordingToSquareMeter = riskLevelAccordingToSquareMeter;
-		this.riskLevelAccordingToCompensation = riskLevelAccordingToCompensation;
+	public HomeFormula(CalculationFormulaForService calculationFormulaForService) {
+		super(calculationFormulaForService);
 	}
 
-	public HashMap<ResidenceType, RiskLevel> getRiskLevelAccordingToResidenceType() {
+	public HomeFormula() {
+
+	}
+
+	public byte[] getRiskLevelAccordingToResidenceType() {
 		return riskLevelAccordingToResidenceType;
 	}
 
-	public void setRiskLevelAccordingToResidenceType(HashMap<ResidenceType, RiskLevel> riskLevelAccordingToResidenceType) {
+	public void setRiskLevelAccordingToResidenceType(byte[] riskLevelAccordingToResidenceType) {
 		this.riskLevelAccordingToResidenceType = riskLevelAccordingToResidenceType;
 	}
 
-	public HashMap<HouseType, RiskLevel> getRiskLevelAccordingToHouseType() {
+	public byte[] getRiskLevelAccordingToHouseType() {
 		return riskLevelAccordingToHouseType;
 	}
 
-	public void setRiskLevelAccordingToHouseType(HashMap<HouseType, RiskLevel> riskLevelAccordingToHouseType) {
+	public void setRiskLevelAccordingToHouseType(byte[] riskLevelAccordingToHouseType) {
 		this.riskLevelAccordingToHouseType = riskLevelAccordingToHouseType;
 	}
 
-	public HashMap<HomeSquareMeter, RiskLevel> getRiskLevelAccordingToSquareMeter() {
+	public byte[] getRiskLevelAccordingToSquareMeter() {
 		return riskLevelAccordingToSquareMeter;
 	}
 
-	public void setRiskLevelAccordingToSquareMeter(HashMap<HomeSquareMeter, RiskLevel> riskLevelAccordingToSquareMeter) {
+	public void setRiskLevelAccordingToSquareMeter(byte[] riskLevelAccordingToSquareMeter) {
 		this.riskLevelAccordingToSquareMeter = riskLevelAccordingToSquareMeter;
 	}
 
-	public HashMap<HomeCompensation, RiskLevel> getRiskLevelAccordingToCompensation() {
+	public byte[] getRiskLevelAccordingToCompensation() {
 		return riskLevelAccordingToCompensation;
 	}
 
-	public void setRiskLevelAccordingToCompensation(HashMap<HomeCompensation, RiskLevel> riskLevelAccordingToCompensation) {
+	public void setRiskLevelAccordingToCompensation(byte[] riskLevelAccordingToCompensation) {
 		this.riskLevelAccordingToCompensation = riskLevelAccordingToCompensation;
 	}
-
 }

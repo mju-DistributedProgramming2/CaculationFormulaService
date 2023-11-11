@@ -1,67 +1,94 @@
 package com.example.caculationformulaservice.Entity.calculationFormula;
 
 
-import com.example.caculationformulaservice.enumeration.calculationFormula.OutwallType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.PillarType;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RiskLevel;
-import com.example.caculationformulaservice.enumeration.calculationFormula.RoofType;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashMap;
 
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "formula_type")
 public abstract class CalculationFormula implements Serializable {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column(name = "name", nullable = false)
 	private String name;
-	private HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType;
-	private HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType;
-	private HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToPillarType", nullable = false)
+	private byte[] riskLevelAccordingToPillarType;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToRoofType", nullable = false)
+	private byte[] riskLevelAccordingToRoofType;
+
+	@Lob
+	@Column(name = "riskLevelAccordingToOutwallType", nullable = false)
+	private byte[] riskLevelAccordingToOutwallType;
+
+	@Column(name = "multiplierForMinCompensation", nullable = false)
 	private int multiplierForMinCompensation;
+
+	@Column(name = "multiplierForMaxCompensation", nullable = false)
 	private int multiplierForMaxCompensation;
+
+	@Column(name = "multiplierForPayment", nullable = false)
 	private int multiplierForPayment;
 	
-	public CalculationFormula(String calculationFormulaName, HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType,
-							  HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType,
-							  HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType, int multiplierForMinCompensation,
-							  int multiplierForMaxCompensation, int multiplierForPayment) {
-		this.name = calculationFormulaName;
-		this.riskLevelAccordingToPillarType = riskLevelAccordingToPillarType;
-		this.riskLevelAccordingToRoofType = riskLevelAccordingToRoofType;
-		this.riskLevelAccordingToOutwallType = riskLevelAccordingToOutwallType;
-		this.multiplierForMinCompensation = multiplierForMinCompensation;
-		this.multiplierForMaxCompensation = multiplierForMaxCompensation;
-		this.multiplierForPayment = multiplierForPayment;
-	}	
+
+	public CalculationFormula(CalculationFormulaForService calculationFormulaForService) {
+		this.id = calculationFormulaForService.getId();
+		this.name = calculationFormulaForService.getName();
+		this.multiplierForMinCompensation = calculationFormulaForService.getMultiplierForMinCompensation();
+		this.multiplierForMaxCompensation = calculationFormulaForService.getMultiplierForMaxCompensation();
+		this.multiplierForPayment = calculationFormulaForService.getMultiplierForPayment();
+	}
+
+	public CalculationFormula() {
+
+	}
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int calculationFormulaId) {
-		this.id = calculationFormulaId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public HashMap<PillarType, RiskLevel> getRiskLevelAccordingToPillarType() {
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public byte[] getRiskLevelAccordingToPillarType() {
 		return riskLevelAccordingToPillarType;
 	}
 
-	public void setRiskLevelAccordingToPillarType(HashMap<PillarType, RiskLevel> riskLevelAccordingToPillarType) {
+	public void setRiskLevelAccordingToPillarType(byte[] riskLevelAccordingToPillarType) {
 		this.riskLevelAccordingToPillarType = riskLevelAccordingToPillarType;
 	}
 
-	public HashMap<RoofType, RiskLevel> getRiskLevelAccordingToRoofType() {
+	public byte[] getRiskLevelAccordingToRoofType() {
 		return riskLevelAccordingToRoofType;
 	}
 
-	public void setRiskLevelAccordingToRoofType(HashMap<RoofType, RiskLevel> riskLevelAccordingToRoofType) {
+	public void setRiskLevelAccordingToRoofType(byte[] riskLevelAccordingToRoofType) {
 		this.riskLevelAccordingToRoofType = riskLevelAccordingToRoofType;
 	}
 
-	public HashMap<OutwallType, RiskLevel> getRiskLevelAccordingToOutwallType() {
+	public byte[] getRiskLevelAccordingToOutwallType() {
 		return riskLevelAccordingToOutwallType;
 	}
 
-	public void setRiskLevelAccordingToOutwallType(HashMap<OutwallType, RiskLevel> riskLevelAccordingToOutwallType) {
+	public void setRiskLevelAccordingToOutwallType(byte[] riskLevelAccordingToOutwallType) {
 		this.riskLevelAccordingToOutwallType = riskLevelAccordingToOutwallType;
 	}
 
@@ -88,13 +115,4 @@ public abstract class CalculationFormula implements Serializable {
 	public void setMultiplierForPayment(int multiplierForPayment) {
 		this.multiplierForPayment = multiplierForPayment;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String calculationFormulaName) {
-		this.name = calculationFormulaName;
-	}
-
 }

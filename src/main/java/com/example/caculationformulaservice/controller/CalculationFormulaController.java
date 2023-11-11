@@ -3,6 +3,7 @@ package com.example.caculationformulaservice.controller;
 
 import com.example.caculationformulaservice.DTO.*;
 import com.example.caculationformulaservice.Entity.calculationFormula.CalculationFormula;
+import com.example.caculationformulaservice.Entity.calculationFormulaForService.calculationFormula.CalculationFormulaForService;
 import com.example.caculationformulaservice.exception.DataDuplicationException;
 import com.example.caculationformulaservice.exception.EmptyListException;
 import com.example.caculationformulaservice.exception.NoDataException;
@@ -22,13 +23,13 @@ public class CalculationFormulaController {
     CalculationFormulaService calculationFormulaService;
     @GetMapping("/calculationFormulas")
     public GetCalculationFormulaListResponse getCalculationFormulaList(GetCalculationFormulaListRequest GetCalculationFormulaListrequest) throws RemoteException, EmptyListException, TimeDelayException {
-        ArrayList<CalculationFormula> calculationFormulas = this.calculationFormulaService.getCalculationFormulaList(GetCalculationFormulaListrequest.getInsuranceType());
+        ArrayList<CalculationFormulaForService> calculationFormulas = this.calculationFormulaService.getCalculationFormulaList(GetCalculationFormulaListrequest.getInsuranceType());
         GetCalculationFormulaListResponse getCalculationFormulaListResponse = new GetCalculationFormulaListResponse(calculationFormulas);
         return getCalculationFormulaListResponse;
     }
     @GetMapping("/calculationFormula")
     public GetCalculationFormulaResponse getCalculationFormula(GetCalculationFormulaRequest getCalculationFormulaRequest) throws RemoteException, NoDataException {
-        CalculationFormula CalculationFormula =calculationFormulaService.getCalculationFormula(getCalculationFormulaRequest.getId());
+        CalculationFormulaForService CalculationFormula =calculationFormulaService.getCalculationFormula(getCalculationFormulaRequest.getId());
         GetCalculationFormulaResponse getCalculationFormulaResponse = new GetCalculationFormulaResponse(CalculationFormula);
         return getCalculationFormulaResponse;
     }
